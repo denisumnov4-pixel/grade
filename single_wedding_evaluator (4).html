@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Свадьба Лизы и Жоры — Система оценивания</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              300: '#F3E5AB',
+              400: '#E6CA65',
+              500: '#D4AF37',
+              600: '#AA8518',
+            },
+            emerald: {
+              400: '#34D399',
+              500: '#10B981',
+              600: '#059669',
+              900: '#064E3B',
+              950: '#022C22',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+  <style>
+    body {
+      background-color: #06090e;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.15) 0px, transparent 40%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.12) 0px, transparent 45%),
+        radial-gradient(at 50% 50%, rgba(6, 78, 59, 0.15) 0px, transparent 60%);
+      background-attachment: fixed;
+      font-family: 'Inter', sans-serif;
+      color: #f4f4f5;
+    }
+    
+    .glass-card {
+      background: rgba(15, 23, 20, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    .glass-gold {
+      background: rgba(30, 26, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+    }
+
+    /* Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 10px;
+      cursor: pointer;
+      background: #111c18;
+      border-radius: 6px;
+      border: 1px solid rgba(212,175,55,0.2);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #D4AF37;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -7px;
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.7);
+      transition: all 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #F3E5AB;
+    }
+
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-card {
+        background: white !important;
+        border: 2px solid #000 !important;
+        color: black !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-black">
+
+  <!-- HEADER -->
+  <header class="glass-card sticky top-0 z-40 border-b border-gold-500/20 px-4 py-3.5 md:px-8 no-print">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-gold-600 via-gold-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-gold-500/20">
+          <i data-lucide="heart" class="w-6 h-6 text-black fill-black"></i>
+        </div>
+        <div>
+          <h1 class="font-black text-xl md:text-2xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-emerald-400">
+            СВАДЬБА ЛИЗЫ И ЖОРЫ
+          </h1>
+          <p class="text-[11px] text-zinc-400 font-medium">Официальная система оценивания торжества</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button onclick="resetForm()" class="text-xs text-zinc-400 hover:text-zinc-200 px-3 py-2 rounded-xl bg-zinc-900 border border-white/10 hover:border-gold-500/30 transition">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 inline mr-1"></i> Сброс
+        </button>
+        <button onclick="window.print()" class="flex items-center space-x-2 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 font-bold text-xs px-3.5 py-2.5 rounded-xl transition border border-emerald-500/30">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span>Печать отчета</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTAINER -->
+  <main class="max-w-6xl mx-auto w-full px-4 py-8 md:px-8 space-y-8 flex-grow">
+
+    <!-- FORM FOR EVALUATION -->
+    <form id="evaluationForm" onsubmit="handleFormSubmit(event)">
+      <input type="hidden" name="_replyto" value="denisumnov4@gmail.com">
+      <input type="hidden" name="_subject" id="formSubject" value="Оценка свадьбы Лизы и Жоры">
+
+      <!-- 1. PARTICIPANT IDENTITY CARD -->
+      <section class="glass-card rounded-3xl p-6 md:p-8 relative overflow-hidden border border-gold-500/30 mb-8">
+        <div class="absolute -top-10 -right-10 w-48 h-48 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+          <div class="flex items-center space-x-2 text-gold-400">
+            <i data-lucide="user-check" class="w-5 h-5"></i>
+            <h2 class="text-sm font-bold uppercase tracking-widest text-zinc-200">Данные участника оценивания</h2>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-zinc-400">Проголосовало гостей: <span id="juryCountBadge" class="text-gold-400 font-bold">0</span></span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-xs font-semibold text-zinc-400 mb-1.5">Ваше Имя и Фамилия / Статус *</label>
+            <input type="text" id="participantName" name="Имя_участника" required placeholder="Например: Алексей Смирнов (Гость жениха)" class="w-full bg-black/60 border border-white/10 rounded-xl p-3.5 text-sm font-semibold text-white focus:outline-none focus:border-gold-500 transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-zinc-400 mb-1.5">Email для отправки копии отчета</label>
+            <input type="email" id="targetEmail" name="Email_получателя" value="denisumnov4@gmail.com" readonly class="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-sm text-gold-400 font-medium focus:outline-none cursor-not-allowed">
+          </div>
+        </div>
+      </section>
+
+      <!-- MAIN EVALUATION DASHBOARD -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- LEFT: 4 MAIN CRITERIA SLIDERS (7 COLS) -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+              <h3 class="font-bold text-zinc-100 text-base flex items-center space-x-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-gold-400"></i>
+                <span>4 Основных критерия (от 1 до 10)</span>
+              </h3>
+              <span class="text-xs text-emerald-400 font-medium">Премиум-оценка</span>
+            </div>
+
+            <!-- CRITERION 1: BRIDE & GROOM LOOK -->
+            <div class="bg-black/40 p-4 rounded-2xl border border-white/5 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-9 h-9 rounded-xl bg-gold-500/10 text-gold-400 flex items-center justify-center font-black text-sm border border-gold-500/20">1</div>
+                  <div>
+                    <h4 class="text-sm font-bold text-zinc-200">Образ пары (Платье и Костюм)</h4>
+                    <p class="text-[11px] text-zinc-400">Гармоничность образов Лизы и Жоры, стиль, посадка</p>
+                  </div>
+                </div>
+                <span id="val_dress" class="text-2xl font-black text-gold-400 bg-black/80 px-3.5 py-1 rounded-xl border border-gold-500/40">9</span>
+                <input type="hidden" name="Образ_пары" id="input_dress" value="9">
+              </div>
+              <input type="range" id="score_dress" min="1" max="10" value="9" oninput="calculateTotal()" class="w-full">
+              <div class="flex justify-between text-[10px] text-zinc-500 font-medium">
+                <span>Слабо (1)</span>
+                <span>Хорошо (5)</span>
+                <span>Идеально (10)</span>
+              </div>
+            </div>
+
+            <!-- CRITERION 2: BANQUET & MENU -->
+            <div class="bg-black/40 p-4 rounded-2xl border border-white/5 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-9 h-9 rounded-xl bg-gold-500/10 text-gold-400 flex items-center justify-center font-black text-sm border border-gold-500/20">2</div>
+                  <div>
+                    <h4 class="text-sm font-bold text-zinc-200">Банкет и Меню</h4>
+                    <p class="text-[11px] text-zinc-400">Качество и разнообразие блюд, напитки, свадебный торт</p>
+                  </div>
+                </div>
+                <span id="val_food" class="text-2xl font-black text-gold-400 bg-black/80 px-3.5 py-1 rounded-xl border border-gold-500/40">8</span>
+                <input type="hidden" name="Банкет_и_меню" id="input_food" value="8">
+              </div>
+              <input type="range" id="score_food" min="1" max="10" value="8" oninput="calculateTotal()" class="w-full">
+              <div class="flex justify-between text-[10px] text-zinc-500 font-medium">
+                <span>Невкусно (1)</span>
+                <span>Вкусно (5)</span>
+                <span>Шедеврально (10)</span>
+              </div>
+            </div>
+
+            <!-- CRITERION 3: DECOR & VENUE -->
+            <div class="bg-black/40 p-4 rounded-2xl border border-white/5 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-9 h-9 rounded-xl bg-gold-500/10 text-gold-400 flex items-center justify-center font-black text-sm border border-gold-500/20">3</div>
+                  <div>
+                    <h4 class="text-sm font-bold text-zinc-200">Оформление и Локация</h4>
+                    <p class="text-[11px] text-zinc-400">Декор зала, фотозона, комфорт площадке, флористика</p>
+                  </div>
+                </div>
+                <span id="val_decor" class="text-2xl font-black text-gold-400 bg-black/80 px-3.5 py-1 rounded-xl border border-gold-500/40">9</span>
+                <input type="hidden" name="Оформление_и_локация" id="input_decor" value="9">
+              </div>
+              <input type="range" id="score_decor" min="1" max="10" value="9" oninput="calculateTotal()" class="w-full">
+              <div class="flex justify-between text-[10px] text-zinc-500 font-medium">
+                <span>Скромно (1)</span>
+                <span>Красиво (5)</span>
+                <span>Роскошно (10)</span>
+              </div>
+            </div>
+
+            <!-- CRITERION 4: VIBE & PROGRAM -->
+            <div class="bg-black/40 p-4 rounded-2xl border border-white/5 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-9 h-9 rounded-xl bg-gold-500/10 text-gold-400 flex items-center justify-center font-black text-sm border border-gold-500/20">4</div>
+                  <div>
+                    <h4 class="text-sm font-bold text-zinc-200">Атмосфера и Программа</h4>
+                    <p class="text-[11px] text-zinc-400">Работа ведущего, шоу-номера, танцы и эмоции гостей</p>
+                  </div>
+                </div>
+                <span id="val_vibe" class="text-2xl font-black text-gold-400 bg-black/80 px-3.5 py-1 rounded-xl border border-gold-500/40">10</span>
+                <input type="hidden" name="Атмосфера_и_программа" id="input_vibe" value="10">
+              </div>
+              <input type="range" id="score_vibe" min="1" max="10" value="10" oninput="calculateTotal()" class="w-full">
+              <div class="flex justify-between text-[10px] text-zinc-500 font-medium">
+                <span>Скучно (1)</span>
+                <span>Весело (5)</span>
+                <span>Незабываемо (10)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BONUS & PENALTY SECTION -->
+          <div class="glass-card rounded-3xl p-6 space-y-4 border border-white/10">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <h4 class="font-bold text-sm text-zinc-200 flex items-center space-x-2">
+                <i data-lucide="award" class="w-4 h-4 text-emerald-400"></i>
+                <span>Фишки (+) и Замечания (-)</span>
+              </h4>
+              <span class="text-xs text-zinc-500">До 5 баллов в обе стороны</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Bonus -->
+              <div class="bg-emerald-950/30 border border-emerald-500/30 p-4 rounded-2xl space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Бонус за фишку</span>
+                  <span id="val_bonus" class="text-lg font-black text-emerald-400">+1</span>
+                  <input type="hidden" name="Бонус_баллы" id="input_bonus" value="1">
+                </div>
+                <input type="range" id="score_bonus" min="0" max="5" value="1" oninput="calculateTotal()" class="w-full accent-emerald-500">
+                <input type="text" id="bonusReason" name="Причина_бонуса" value="Потрясающий первый танец Лизы и Жоры" oninput="calculateTotal()" placeholder="За что добавлен бонус..." class="w-full bg-black/60 border border-emerald-500/30 rounded-xl p-2.5 text-xs text-zinc-200 focus:outline-none focus:border-emerald-400 transition">
+              </div>
+
+              <!-- Penalty -->
+              <div class="bg-red-950/20 border border-red-500/30 p-4 rounded-2xl space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Штраф за накладку</span>
+                  <span id="val_penalty" class="text-lg font-black text-red-400">-0</span>
+                  <input type="hidden" name="Штраф_баллы" id="input_penalty" value="0">
+                </div>
+                <input type="range" id="score_penalty" min="0" max="5" value="0" oninput="calculateTotal()" class="w-full accent-red-500">
+                <input type="text" id="penaltyReason" name="Причина_штрафа" value="" oninput="calculateTotal()" placeholder="За что снижен балл..." class="w-full bg-black/60 border border-red-500/30 rounded-xl p-2.5 text-xs text-zinc-200 focus:outline-none focus:border-red-400 transition">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: SCORE CARD & SUBMISSION (5 COLS) -->
+        <div class="lg:col-span-5 space-y-6">
+
+          <!-- GRAND VERDICT BOX -->
+          <div class="glass-gold rounded-3xl p-6 text-center relative overflow-hidden space-y-4">
+            <div class="text-xs font-bold uppercase tracking-widest text-gold-400">Итоговая Оценка Торжества</div>
+
+            <!-- Total Score Counter -->
+            <div class="py-2">
+              <span id="grandTotal" class="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-300 to-gold-500">37</span>
+              <span class="text-zinc-500 text-xl font-bold">/ 40</span>
+              <input type="hidden" name="Итоговый_Балл" id="input_grandTotal" value="37">
+            </div>
+
+            <!-- Dynamic Status Badge -->
+            <div class="inline-block px-4 py-1.5 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-300 text-xs font-extrabold uppercase tracking-wide" id="verdictBadge">
+              Идеальная Свадьба! ✨
+            </div>
+
+            <p id="verdictDescription" class="text-xs text-zinc-300 leading-relaxed italic px-2">
+              Потрясающий праздник Лизы и Жоры! Все прошло на высшем уровне.
+            </p>
+
+            <!-- SUBMIT VOTE BUTTON -->
+            <div class="pt-3">
+              <button type="submit" id="submitBtn" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-emerald-500 hover:from-gold-400 hover:to-emerald-400 text-black font-black text-sm tracking-wide shadow-xl shadow-gold-500/20 transition flex items-center justify-center space-x-2 cursor-pointer">
+                <i data-lucide="send" class="w-4 h-4 stroke-[2.5]"></i>
+                <span>Отправить оценку</span>
+              </button>
+              <p class="text-[11px] text-zinc-500 mt-2">Результат автоматически отправляется на denisumnov4@gmail.com</p>
+            </div>
+          </div>
+
+          <!-- DETAILED REVIEWS / COMMENTS -->
+          <div class="glass-card rounded-3xl p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <h4 class="font-bold text-sm text-zinc-200 flex items-center space-x-2">
+                <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+                <span>Ваш развернутый отзыв</span>
+              </h4>
+            </div>
+
+            <textarea id="participantComment" name="Текстовый_отзыв" rows="4" placeholder="Напишите Ваши пожелания Лизе и Жоре или впечатления от праздника..." class="w-full bg-black/60 border border-white/10 rounded-2xl p-3.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-gold-500 transition resize-none">Невероятная атмосфера! Лиза выглядела восхитительно, а Жора — настоящий джентльмен. Спасибо за этот вечер!</textarea>
+
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" onclick="addQuote('Свадьба года! Все очень понравилось! 🎉')" class="text-[11px] bg-zinc-900 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-lg border border-white/10 transition">+ Свадьба года!</button>
+              <button type="button" onclick="addQuote('Очень вкусный торт и прекрасная еда! 🎂')" class="text-[11px] bg-zinc-900 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-lg border border-white/10 transition">+ Вкусный торт</button>
+              <button type="button" onclick="addQuote('Душевный и весёлый праздник! 🔥')" class="text-[11px] bg-zinc-900 hover:bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-lg border border-white/10 transition">+ Душевно и весело</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+
+    <!-- 2. LEADERBOARD & SUMMARY TABLE -->
+    <section class="glass-card rounded-3xl p-6 md:p-8 space-y-6 border border-gold-500/20">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-4 gap-4">
+        <div>
+          <span class="text-xs uppercase font-bold text-gold-400 tracking-wider">Сводка оценок</span>
+          <h3 class="text-xl font-black text-white">Все проголосовавшие гости и эксперты</h3>
+        </div>
+        <div class="flex items-center space-x-3 bg-black/60 px-4 py-2.5 rounded-2xl border border-gold-500/30">
+          <span class="text-xs text-zinc-400">Средний балл свадьбы:</span>
+          <span id="averageScoreBadge" class="text-2xl font-black text-emerald-400">-- / 40</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-white/10 text-zinc-400 uppercase tracking-wider">
+              <th class="py-3 px-4">Участник</th>
+              <th class="py-3 px-3 text-center">Образ</th>
+              <th class="py-3 px-3 text-center">Банкет</th>
+              <th class="py-3 px-3 text-center">Локация</th>
+              <th class="py-3 px-3 text-center">Атмосфера</th>
+              <th class="py-3 px-3 text-center">Бонус/Штраф</th>
+              <th class="py-3 px-3 text-center">Итого</th>
+              <th class="py-3 px-4">Отзыв</th>
+              <th class="py-3 px-2 text-right">Действие</th>
+            </tr>
+          </thead>
+          <tbody id="juryTableBody" class="divide-y divide-white/5 text-zinc-300">
+            <!-- Populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="emptyJuryState" class="text-center py-8 text-zinc-500 text-xs italic">
+        Пока нет сохраненных оценок. Заполните форму выше и нажмите «Отправить оценку»!
+      </div>
+    </section>
+
+  </main>
+
+  <!-- NOTIFICATION TOAST MODAL -->
+  <div id="toastModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-gold-500/40 text-center space-y-4">
+      <div class="w-14 h-14 bg-emerald-500/20 border border-emerald-500/40 rounded-2xl flex items-center justify-center mx-auto text-emerald-400">
+        <i data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-lg font-black text-white" id="toastTitle">Оценка успешно отправлена!</h3>
+      <p id="toastMessage" class="text-xs text-zinc-300">Ваш отзыв зафиксирован и отправлен на denisumnov4@gmail.com.</p>
+      
+      <div class="flex space-x-3 pt-2">
+        <button onclick="triggerMailtoFallback()" class="flex-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 py-3 rounded-xl text-xs font-bold transition border border-white/10 flex items-center justify-center space-x-1.5">
+          <i data-lucide="mail" class="w-4 h-4 text-gold-400"></i>
+          <span>Открыть почту (Mailto)</span>
+        </button>
+        <button onclick="closeToast()" class="flex-1 bg-gradient-to-r from-gold-500 to-emerald-500 text-black font-extrabold py-3 rounded-xl text-xs transition">
+          Закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-5 text-center text-xs text-zinc-500 no-print">
+    <p>© Свадьба Лизы и Жоры — Торжественная система оценивания</p>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    const TARGET_EMAIL = 'denisumnov4@gmail.com';
+    let savedVotes = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadStoredVotes();
+      calculateTotal();
+    });
+
+    function calculateTotal() {
+      const dress = parseInt(document.getElementById('score_dress').value, 10);
+      const food = parseInt(document.getElementById('score_food').value, 10);
+      const decor = parseInt(document.getElementById('score_decor').value, 10);
+      const vibe = parseInt(document.getElementById('score_vibe').value, 10);
+      const bonus = parseInt(document.getElementById('score_bonus').value, 10);
+      const penalty = parseInt(document.getElementById('score_penalty').value, 10);
+
+      document.getElementById('val_dress').innerText = dress;
+      document.getElementById('val_food').innerText = food;
+      document.getElementById('val_decor').innerText = decor;
+      document.getElementById('val_vibe').innerText = vibe;
+      document.getElementById('val_bonus').innerText = '+' + bonus;
+      document.getElementById('val_penalty').innerText = '-' + penalty;
+
+      // Sync hidden form inputs
+      document.getElementById('input_dress').value = dress;
+      document.getElementById('input_food').value = food;
+      document.getElementById('input_decor').value = decor;
+      document.getElementById('input_vibe').value = vibe;
+      document.getElementById('input_bonus').value = bonus;
+      document.getElementById('input_penalty').value = penalty;
+
+      const total = dress + food + decor + vibe + bonus - penalty;
+      document.getElementById('grandTotal').innerText = total;
+      document.getElementById('input_grandTotal').value = total;
+
+      const vBadge = document.getElementById('verdictBadge');
+      const vDesc = document.getElementById('verdictDescription');
+
+      if (total >= 36) {
+        vBadge.innerText = 'Идеальная Свадьба! ✨';
+        vBadge.className = 'inline-block px-4 py-1.5 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-300 text-xs font-extrabold uppercase tracking-wide';
+        vDesc.innerText = 'Потрясающий праздник Лизы и Жоры! Все прошло на высшем уровне.';
+      } else if (total >= 28) {
+        vBadge.innerText = 'Замечательный праздник! 🌟';
+        vBadge.className = 'inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase tracking-wide';
+        vDesc.innerText = 'Отличная атмосфера и прекрасное оформление.';
+      } else if (total >= 20) {
+        vBadge.innerText = 'Хорошая свадьба 🌾';
+        vBadge.className = 'inline-block px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-extrabold uppercase tracking-wide';
+        vDesc.innerText = 'Приятный вечер с небольшими замечаниями.';
+      } else {
+        vBadge.innerText = 'Требует внимания ❄️';
+        vBadge.className = 'inline-block px-4 py-1.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-extrabold uppercase tracking-wide';
+        vDesc.innerText = 'Остались смешанные впечатления.';
+      }
+    }
+
+    function addQuote(phrase) {
+      const area = document.getElementById('participantComment');
+      area.value = area.value ? area.value + ' ' + phrase : phrase;
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById('participantName');
+      const name = nameInput.value.trim();
+
+      if (!name) {
+        alert('Пожалуйста, укажите Ваше имя перед отправкой!');
+        nameInput.focus();
+        return;
+      }
+
+      const dress = parseInt(document.getElementById('score_dress').value, 10);
+      const food = parseInt(document.getElementById('score_food').value, 10);
+      const decor = parseInt(document.getElementById('score_decor').value, 10);
+      const vibe = parseInt(document.getElementById('score_vibe').value, 10);
+      const bonus = parseInt(document.getElementById('score_bonus').value, 10);
+      const penalty = parseInt(document.getElementById('score_penalty').value, 10);
+      const bonusReason = document.getElementById('bonusReason').value.trim();
+      const penaltyReason = document.getElementById('penaltyReason').value.trim();
+      const comment = document.getElementById('participantComment').value.trim();
+      const total = dress + food + decor + vibe + bonus - penalty;
+
+      const voteData = {
+        id: Date.now(),
+        name,
+        dress,
+        food,
+        decor,
+        vibe,
+        bonus,
+        penalty,
+        bonusReason,
+        penaltyReason,
+        total,
+        comment,
+        date: new Date().toLocaleDateString('ru-RU')
+      };
+
+      // Save locally
+      savedVotes.push(voteData);
+      localStorage.setItem('liza_zhora_wedding_votes', JSON.stringify(savedVotes));
+      renderTable();
+
+      // Submit via Formspree or Email API
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Отправка...</span>';
+      lucide.createIcons();
+
+      // Subject setup
+      document.getElementById('formSubject').value = `Оценка свадьбы Лизы и Жоры от ${name} (${total}/40)`;
+
+      // Async fetch to Formspree endpoint
+      fetch('https://formspree.io/f/xbjnqkyv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          recipient: TARGET_EMAIL,
+          name: name,
+          dressScore: dress,
+          foodScore: food,
+          decorScore: decor,
+          vibeScore: vibe,
+          bonusScore: bonus,
+          bonusReason: bonusReason,
+          penaltyScore: penalty,
+          penaltyReason: penaltyReason,
+          totalScore: total,
+          comment: comment
+        })
+      })
+      .then(() => {
+        showToast(name, total);
+      })
+      .catch(() => {
+        showToast(name, total);
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="send" class="w-4 h-4 stroke-[2.5]"></i><span>Отправить оценку</span>';
+        lucide.createIcons();
+      });
+    }
+
+    function triggerMailtoFallback() {
+      const name = document.getElementById('participantName').value || 'Участник';
+      const dress = document.getElementById('score_dress').value;
+      const food = document.getElementById('score_food').value;
+      const decor = document.getElementById('score_decor').value;
+      const vibe = document.getElementById('score_vibe').value;
+      const bonus = document.getElementById('score_bonus').value;
+      const penalty = document.getElementById('score_penalty').value;
+      const bonusReason = document.getElementById('bonusReason').value;
+      const penaltyReason = document.getElementById('penaltyReason').value;
+      const total = document.getElementById('grandTotal').innerText;
+      const comment = document.getElementById('participantComment').value;
+
+      const subject = encodeURIComponent(`Оценка свадьбы Лизы и Жоры от ${name}`);
+      const body = encodeURIComponent(
+        `ОЦЕНКА СВАДЬБЫ ЛИЗЫ И ЖОРЫ\n` +
+        `====================================\n` +
+        `Участник / Гость: ${name}\n\n` +
+        `ОЦЕНКИ КРИТЕРИЕВ (от 1 до 10):\n` +
+        `• Образ пары (платье и костюм): ${dress}/10\n` +
+        `• Банкет и меню: ${food}/10\n` +
+        `• Оформление и локация: ${decor}/10\n` +
+        `• Атмосфера и программа: ${vibe}/10\n\n` +
+        `КОРРЕКТИРОВКИ:\n` +
+        `• Бонус: +${bonus} (${bonusReason || 'Без указания'})\n` +
+        `• Штраф: -${penalty} (${penaltyReason || 'Без указания'})\n\n` +
+        `ИТОГОВЫЙ БАЛЛ: ${total} из 40\n\n` +
+        `ОТЗЫВ И ПОЖЕЛАНИЯ:\n"${comment}"\n`
+      );
+
+      window.location.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+      closeToast();
+    }
+
+    function showToast(name, total) {
+      document.getElementById('toastTitle').innerText = `Спасибо, ${name}!`;
+      document.getElementById('toastMessage').innerText = `Ваша оценка свадьбы Лизы и Жоры (${total}/40 балла) зафиксирована и отправлена на denisumnov4@gmail.com`;
+      document.getElementById('toastModal').classList.remove('hidden');
+    }
+
+    function closeToast() {
+      document.getElementById('toastModal').classList.add('hidden');
+    }
+
+    function loadStoredVotes() {
+      const stored = localStorage.getItem('liza_zhora_wedding_votes');
+      if (stored) {
+        try {
+          savedVotes = JSON.parse(stored);
+        } catch (e) {
+          savedVotes = [];
+        }
+      }
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('juryTableBody');
+      const emptyState = document.getElementById('emptyJuryState');
+      const badgeCount = document.getElementById('juryCountBadge');
+
+      badgeCount.innerText = savedVotes.length;
+
+      if (savedVotes.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        document.getElementById('averageScoreBadge').innerText = '-- / 40';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      tbody.innerHTML = '';
+
+      let sumTotal = 0;
+
+      savedVotes.forEach(j => {
+        sumTotal += j.total;
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/5 transition';
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 font-bold text-white flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-gold-400"></span>
+            <span>${j.name}</span>
+          </td>
+          <td class="py-3.5 px-3 text-center font-semibold text-zinc-300">${j.dress}</td>
+          <td class="py-3.5 px-3 text-center font-semibold text-zinc-300">${j.food}</td>
+          <td class="py-3.5 px-3 text-center font-semibold text-zinc-300">${j.decor}</td>
+          <td class="py-3.5 px-3 text-center font-semibold text-zinc-300">${j.vibe}</td>
+          <td class="py-3.5 px-3 text-center font-bold text-emerald-400">+${j.bonus}/-${j.penalty}</td>
+          <td class="py-3.5 px-3 text-center font-black text-gold-400 text-sm bg-gold-500/10 rounded-xl">${j.total}</td>
+          <td class="py-3.5 px-4 italic text-zinc-400 max-w-xs truncate">${j.comment || '—'}</td>
+          <td class="py-3.5 px-2 text-right">
+            <button type="button" onclick="deleteVote(${j.id})" class="text-zinc-500 hover:text-red-400 p-1.5 rounded-lg transition">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+
+      const avg = (sumTotal / savedVotes.length).toFixed(1);
+      document.getElementById('averageScoreBadge').innerText = `${avg} / 40`;
+    }
+
+    function deleteVote(id) {
+      savedVotes = savedVotes.filter(v => v.id !== id);
+      localStorage.setItem('liza_zhora_wedding_votes', JSON.stringify(savedVotes));
+      renderTable();
+    }
+
+    function resetForm() {
+      document.getElementById('participantName').value = '';
+      document.getElementById('score_dress').value = 9;
+      document.getElementById('score_food').value = 8;
+      document.getElementById('score_decor').value = 9;
+      document.getElementById('score_vibe').value = 10;
+      document.getElementById('score_bonus').value = 1;
+      document.getElementById('score_penalty').value = 0;
+      document.getElementById('bonusReason').value = 'Потрясающий первый танец Лизы и Жоры';
+      document.getElementById('penaltyReason').value = '';
+      document.getElementById('participantComment').value = '';
+      calculateTotal();
+    }
+  </script>
+</body>
+</html>
